@@ -24,7 +24,6 @@ export default (state = initialState, action) => {
       return newData;
     case EDIT_BOOK_DATA:
       const newState = JSON.parse(JSON.stringify(state));
-debugger
       newState.forEach((data, index) => {
         if(data.id == action.data.id) {
           newState[index] = {...action.data};
