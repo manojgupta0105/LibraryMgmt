@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import Button from "../Components/Button";
+import Modal from '../Components/Modal';
 import Textbox from "../Components/Textbox";
 import { getBooks } from '../reducer/app';
 
@@ -62,6 +63,7 @@ class Library extends React.Component {
           {this.renderBookElement()}
         
       </div>
+      <Modal />
     </div>
   }
 }
@@ -75,8 +77,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addRecord: () => dispatch({ type: 'INCREMENT' }),
-    EditRecord: () => dispatch({ type: 'DECREMENT' })
+    addRecord: () => dispatch({ type: 'ADD_BOOK_DATA' }),
+    EditRecord: () => dispatch({ type: 'EDIT_BOOK_DATA' })
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Library);
