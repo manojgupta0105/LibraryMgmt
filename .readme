@@ -1,0 +1,11 @@
+reduxState
+LibraryMgmt
+  Books: [
+    {
+      id: 1,
+      name: "Hello",
+      qty: 12,
+      author: "Test",
+      Description: ""
+    }
+  ]
