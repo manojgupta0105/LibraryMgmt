@@ -1,15 +1,16 @@
 import React from 'react';
 
-const Modal = ({id, name, qty, author, desc, addBookData}) => {
+const Modal = ({bookEditData, addBookData, closeModal}) => {
   return (
-    <div>
+    <div className="bookUpdateForm" style={{display: "inline-flex"}}>
       <form id="BookForm">
-        <input type="hidden" id="bookId" value={id} />
-        Book Name: <input id="bookName" value={name} />
-        Book Quantity: <input id="bookQuantity" value={qty} />
-        Author Name: <input  id="authName" value={author}/>
-        Book Description: <textarea id="bookDesc">{desc}</textarea>
+        <div><input type="hidden" name="bookId" value={bookEditData.id} /></div>
+        <div>Book Name: <input name="bookName" value={bookEditData.name} /></div>
+        <div>Book Quantity: <input name="bookQuantity" value={bookEditData.qty} /></div>
+        <div>Author Name: <input  name="authName" value={bookEditData.author}/></div>
+        <div>Book Description: <textarea name="bookDesc">{bookEditData.desc}</textarea></div>
         <button onClick={addBookData}>Submit</button>
+        <button onClick={closeModal}>Cancel</button>
       </form>
     </div>
   )

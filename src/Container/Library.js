@@ -10,7 +10,9 @@ class Library extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchQuery: ''
+      searchQuery: '',
+      showModal: false,
+      bookEditData: {}
     }
   }
 
@@ -22,8 +24,47 @@ class Library extends React.Component {
   };
 
   btnAction = () => {
-    
+    this.setState({
+      showModal: true
+    })
+  };
+
+  closeModal = () => {
+    this.setState({
+      showModal: false
+    })
+  };
+
+  editBook = (data) => {
+    this.setState({
+      bookEditData: data,
+      showModal: true
+    })
   }
+
+  addBookData = (e) => {
+    e.preventDefault();
+    const { books, addRecord, editRecord } = this.props;
+    const formData = new FormData(e.target.parentElement);
+    const bookData = {
+      id: formData.get('bookId') ? formData.get('bookId') : '',
+      name: formData.get('bookName'),
+      qty: formData.get('bookQuantity'),
+      author: formData.get('authName'),
+      desc: formData.get('bookDesc')
+    }
+    console.log(bookData);
+    if (!bookData.id) {
+      addRecord(bookData);
+    } else {
+      editRecord(bookData);
+    }
+      
+    this.setState({
+      bookEditData: {},
+      showModal: false
+    });
+  };
 
   renderBookElement = () => {
     const { books } = this.props;
@@ -37,6 +78,7 @@ class Library extends React.Component {
             <div>{data.qty}</div>
             <div>{data.author}</div>
             <div>{data.desc}</div>
+            <div><button onClick={() => this.editBook(data)}>Edit</button></div>
           </div>
           );
         }
@@ -48,6 +90,7 @@ class Library extends React.Component {
   };
 
   render() {
+    const {showModal, bookEditData} = this.state;
     return <div className="library-container" style={{width: '400px'}}>
       <div className="library-action-btns">
         Test btn
@@ -58,12 +101,13 @@ class Library extends React.Component {
           <div>Quantity</div>
           <div>Author</div>
           <div>Description</div>
+          <div>Action</div>
         </div>
         
           {this.renderBookElement()}
         
       </div>
-      <Modal />
+      {showModal ? <Modal addBookData={this.addBookData} closeModal={this.closeModal} bookEditData={bookEditData} /> : ""}
     </div>
   }
 }
@@ -77,8 +121,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addRecord: () => dispatch({ type: 'ADD_BOOK_DATA' }),
-    EditRecord: () => dispatch({ type: 'EDIT_BOOK_DATA' })
+    addRecord: (data) => dispatch({ type: 'ADD_BOOK_DATA', data }),
+    editRecord: (data) => dispatch({ type: 'EDIT_BOOK_DATA', data })
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Library);

@@ -16,20 +16,21 @@ const initialState = [
 export default (state = initialState, action) => {
   switch(action.type) {
     case ADD_BOOK_DATA:
-      return [
-        ...state,
-        action.data
-      ];
+      const newData = [...state];
+      newData.push({
+        ...action.data,
+        id: state.length+ 1
+      });
+      return newData;
     case EDIT_BOOK_DATA:
-      const newState = {...state};
-      newState.forEach(data => {
-        if(data.id === action.data.id) {
-          data = action.data
+      const newState = JSON.parse(JSON.stringify(state));
+debugger
+      newState.forEach((data, index) => {
+        if(data.id == action.data.id) {
+          newState[index] = {...action.data};
         }
       });
-      return {
-        ...newState
-      }
+      return newState;
       default:
         return state;
   };
